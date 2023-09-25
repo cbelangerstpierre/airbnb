@@ -72,9 +72,9 @@ const AddHouse = () => {
   const handleSubmitPhoto = async () => {
     const formDataPhotos = new FormData();
 
-    for (let i = 0; i < uploadedPhotos.length; i++) {
-      formDataPhotos.append("files", uploadedPhotos[i]);
-    }
+    uploadedPhotos.forEach((photo) => {
+      formDataPhotos.append("files", photo);
+    });
 
     const response = await fetch("/api/upload-images", {
       method: "POST",
@@ -84,7 +84,6 @@ const AddHouse = () => {
     const data = await response.json();
     return data.keys;
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -96,39 +95,38 @@ const AddHouse = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
       // Upload photos first
       const photoUrls = await handleSubmitPhoto();
-  
+
       // Prepare the data to be sent
       const postData = {
         ...formData,
         photos: photoUrls,
         availabilities: selectedDates,
       };
-  
-      const response = await fetch('/api/add-house', {
-        method: 'POST',
+
+      const response = await fetch("/api/add-house", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(postData),
       });
 
       console.log(response);
-  
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-  
+
       const data = await response.json();
-      console.log('House added successfully:', data);
+      console.log("House added successfully:", data);
     } catch (error) {
-      console.error('Error adding house:', error);
+      console.error("Error adding house:", error);
     }
   };
-  
 
   return (
     <FormContainer>
