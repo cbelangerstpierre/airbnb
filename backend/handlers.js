@@ -3,12 +3,17 @@ const grid = require("gridfs-stream");
 const House = require("./Schemas/HouseSchema");
 const { GridFSBucket, GridFSBucketReadStream, ObjectId } = require("mongodb");
 const crypto = require('crypto');
+require('dotenv').config();
 var fs = require("fs");
 const AWS = require("aws-sdk");
 
+const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+const MONGODB_SECRET_KEY = process.env.MONGODB_SECRET_KEY;
+
 AWS.config.update({
-  accessKeyId: "AKIAUV777TDMTRCVWQVQ",
-  secretAccessKey: "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",
+  accessKeyId: AWS_ACCESS_KEY_ID,
+  secretAccessKey: AWS_SECRET_ACCESS_KEY,
 });
 const s3 = new AWS.S3();
 
@@ -16,7 +21,7 @@ let gfs = null;
 async function connectToDatabase() {
   try {
     mongoose.connect(
-      "mongodb+srv://cedbs:yXaN2jSpIHW0PheJ@cluster0.3zntvvj.mongodb.net/airbnb",
+      `mongodb+srv://cbelangerstpierre:${MONGODB_SECRET_KEY}@cluster0.fvtv0bw.mongodb.net/airbnb`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
