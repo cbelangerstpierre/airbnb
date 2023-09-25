@@ -4,7 +4,6 @@ import styled from 'styled-components';
 
 const PhotoUpload = ({ onPhotosUploaded }) => {
   const onDrop = useCallback((acceptedFiles) => {
-    // Do something with the uploaded files
     onPhotosUploaded(acceptedFiles);
   }, []);
 
@@ -23,9 +22,9 @@ const PhotoUpload = ({ onPhotosUploaded }) => {
 };
 
 const DropzoneContainer = styled.div`
-  border: 2px dashed #cccccc;
-  border-radius: 4px;
-  padding: 20px;
+  border: .2rem dashed #aaaaaa;
+  border-radius: 1rem;
+  padding: 1.5rem;
   text-align: center;
   cursor: pointer;
 `;

@@ -1,0 +1,1 @@
+Lots of difficulties with uploading photos, I first started with a base64 encoder, then changed to a gridfs directly in MongoDb and finally with a cloud provider (S3)

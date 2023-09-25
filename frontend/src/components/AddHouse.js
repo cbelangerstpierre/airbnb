@@ -61,9 +61,7 @@ const AddHouse = () => {
   };
 
   const handlePhotosUploaded = (photos) => {
-    console.log(photos);
     setUploadedPhotos((prevPhotos) => [...prevPhotos, ...photos]);
-    console.log(uploadedPhotos);
   };
 
   const handleRemovePhoto = (index) => {
@@ -71,22 +69,20 @@ const AddHouse = () => {
     setUploadedPhotos(updatedPhotos);
   };
 
-  const handlePhotosUpload = async () => {
-    const formData2 = new FormData();
-    uploadedPhotos.forEach((photo) => {
-      formData2.append('file', photo);
-    });
-  
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData2,
-      });
-      const data = await response.json();
-      console.log(data); // Handle the response from the server
-    } catch (error) {
-      console.error('Error:', error);
+  const handleSubmitPhoto = async () => {
+    const formDataPhotos = new FormData();
+
+    for (let i = 0; i < uploadedPhotos.length; i++) {
+      formDataPhotos.append("files", uploadedPhotos[i]);
     }
+
+    const response = await fetch("/api/upload-images", {
+      method: "POST",
+      body: formDataPhotos,
+    });
+
+    const data = await response.json();
+    return data.keys;
   };
   
 
@@ -103,16 +99,16 @@ const AddHouse = () => {
   
     try {
       // Upload photos first
-      // const photoUrls = await uploadPhotos(uploadedPhotos);
+      const photoUrls = await handleSubmitPhoto();
   
       // Prepare the data to be sent
       const postData = {
         ...formData,
-        photo: uploadedPhotos[0].path,
+        photos: photoUrls,
         availabilities: selectedDates,
       };
   
-      const response = await fetch('/api/addhouse', {
+      const response = await fetch('/api/add-house', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -148,7 +144,6 @@ const AddHouse = () => {
             required
           />
         </FormGroup>
-        {/* <Button onClick={handlePhotosUpload}>Upload Photos</Button> */}
         <FormGroup>
           <Label>Description:</Label>
           <TextArea
@@ -164,7 +159,6 @@ const AddHouse = () => {
             <PhotoUpload onPhotosUploaded={handlePhotosUploaded} />
           </PhotoUploadContainer>
           {uploadedPhotos.map((photo, index) => {
-            console.log(URL.createObjectURL(photo));
             return (
               <PhotoPreviewDiv key={index}>
                 <RemoveButton onClick={() => handleRemovePhoto(index)}>
