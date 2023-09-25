@@ -1,0 +1,10 @@
+1. only the host can modify the house
+2. When you add a house then you are the host
+3. Change HostSchema to -> ClientSchema, ClientSchema will have a list of houses listed and houses booked
+4. A page component where you can see the profile of someone with their picture in bigger format, a short description of the person,
+   a list of their listed houses
+5. Houses list is one per row on mobile and 3 on computer (Flex, to see how it works)
+6. Do the same with the adding a house, the inputs will be 1 on mobile and 2 on computer
+
+7. The add house, will be transformed into something that can update, it will receive an id for a house that can be null, if it is null, then it means that we add, if it is something then it will update it.
+
