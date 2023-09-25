@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "./components/Main";
 import Header from "./components/Header";
+import AddHouse from "./components/AddHouse";
+import FileUploadComponent from "./components/FileUpload";
   
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         {/* <Header user={null}/> */}
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/add" element={<AddHouse />} />
+          <Route path="/file" element={<FileUploadComponent />} />
         </Routes>
       </Root>
     </BrowserRouter>
