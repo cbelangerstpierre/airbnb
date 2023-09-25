@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const grid = require("gridfs-stream");
 const House = require("./Schemas/HouseSchema");
 const { GridFSBucket, GridFSBucketReadStream, ObjectId } = require("mongodb");
 const crypto = require('crypto');
@@ -78,30 +77,6 @@ const uploadImages = async (req, res) => {
   uploadFile(0);
 };
 
-const getImage = async (req, res) => {
-  const fileId = req.params.id;
-
-  const params = {
-    Bucket: "cbelangerstpierreairbnb",
-    Key: fileId, // Assuming fileId is the key of the image in S3
-  };
-
-  const downloadStream = s3.getObject(params).createReadStream();
-
-  downloadStream.on("data", (chunk) => {
-    res.write(chunk);
-  });
-
-  downloadStream.on("end", () => {
-    res.end();
-  });
-
-  downloadStream.on("error", (error) => {
-    console.error("Error sending image:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  });
-};
-
 const addHouse = async (req, res) => {
   try {
     const newHouse = new House({
@@ -127,6 +102,15 @@ const addHouse = async (req, res) => {
   }
 };
 
+const getAllHouses = async (req, res) => {
+  try {
+    const houses = await House.find();
+    res.status(200).json(houses);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 const generateRandomKey = () => {
   const randomString = crypto.randomBytes(16).toString('hex');
   const timestamp = Date.now().toString();
@@ -136,5 +120,5 @@ const generateRandomKey = () => {
 module.exports = {
   addHouse,
   uploadImages,
-  getImage,
+  getAllHouses,
 };

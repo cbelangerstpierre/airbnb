@@ -1,6 +1,6 @@
 const express = require("express");
 var bodyParser = require("body-parser");
-const { addHouse, uploadImages, getImage } = require("./handlers");
+const { addHouse, uploadImages, getAllHouses } = require("./handlers");
 const app = express();
 app.set("view engine", "ejs");
 var multer = require("multer");
@@ -13,7 +13,8 @@ const upload = multer({ dest: "uploads/" });
 
 app.post("/api/upload-images", upload.array("files", 10), uploadImages);
 app.post("/api/add-house", addHouse);
-app.get('/api/image/:id', getImage);
+app.get("/api/get-all-houses", getAllHouses);
+
 
 app.listen(5000, () => {
   console.log('Server is running on http://localhost:5000');

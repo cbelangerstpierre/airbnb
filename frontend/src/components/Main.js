@@ -1,12 +1,22 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import HousePreview from "./HousePreview";
 
 function Main() {
+  const [houses, setHouses] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/get-all-houses")
+      .then((response) => response.json())
+      .then((data) => setHouses(data))
+      .catch((error) => console.error("Error:", error));
+  }, []);
+
   return (
     <Container>
-        <h1>Hello</h1>
+      {houses.map((house, index) => (
+        <HousePreview key={index} house={house} />
+      ))}
     </Container>
   );
 }
@@ -14,8 +24,9 @@ function Main() {
 export default Main;
 
 const Container = styled.div`
+  padding: 2rem;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: left;
+  gap: 2rem;
   align-items: center;
 `;
