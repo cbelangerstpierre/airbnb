@@ -6,14 +6,14 @@ import Main from "./components/Main";
 import Header from "./components/Header";
 import AddHouse from "./components/AddHouse";
 import Login from "./components/Login";
-  
+
 function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const cookies = document.cookie.split(";").map(cookie => cookie.trim());
+    const cookies = document.cookie.split(";").map((cookie) => cookie.trim());
     let userId = null;
-    cookies.forEach(cookie => {
+    cookies.forEach((cookie) => {
       const [name, value] = cookie.split("=");
       if (name === "user") {
         userId = value;
@@ -36,10 +36,10 @@ function App() {
   return (
     <BrowserRouter>
       <Root>
-        <Header user={user}/>
+        <Header user={user} />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/add" element={<AddHouse />} />
+          <Route path="/add" element={<AddHouse user={user} />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </Root>

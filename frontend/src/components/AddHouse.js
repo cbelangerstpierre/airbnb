@@ -4,7 +4,7 @@ import bghouse from "../images/bghouse.jpg";
 import DateAvailabilityPicker from "./DateAvailabilityPicker";
 import PhotoUpload from "./PhotoUpload";
 
-const AddHouse = () => {
+const AddHouse = (user) => {
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
   const [selectedDates, setSelectedDates] = useState([null, null]);
 
@@ -105,6 +105,7 @@ const AddHouse = () => {
         ...formData,
         photos: photoUrls,
         availabilities: selectedDates,
+        hostId: user._id,
       };
 
       const response = await fetch("/api/add-house", {

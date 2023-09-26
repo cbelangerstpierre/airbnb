@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const House = require("./Schemas/HouseSchema");
-const { GridFSBucket, GridFSBucketReadStream, ObjectId } = require("mongodb");
+const { GridFSBucket, GridFSBucketReadStream } = require("mongodb");
 const crypto = require("crypto");
 const User = require("./schemas/UserSchema.js");
 const bcrypt = require("bcrypt");
@@ -96,6 +96,7 @@ const addHouse = async (req, res) => {
       province: req.body.province,
       photos: req.body.photos,
       availabilities: req.body.availabilities,
+      hostId: req.body.hostId,
     });
 
     await newHouse.save();

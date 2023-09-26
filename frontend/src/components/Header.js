@@ -18,8 +18,6 @@ const Header = ({ user }) => {
     window.location.href = "/";
   };
 
-  console.log(user);
-
   return (
     <HeaderContainer>
       <LeftLink to="/">
@@ -38,6 +36,7 @@ const Header = ({ user }) => {
           {isDropdownOpen && (
             <Dropdown>
               <UserName>{user.fullName}</UserName>
+              <AddHomeButton to="/add">Add a house</AddHomeButton>
               <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
             </Dropdown>
           )}
@@ -56,6 +55,13 @@ const Left = styled.div`
 `;
 const LeftLink = styled(Link)`
   text-decoration: none;
+`;
+
+const AddHomeButton = styled(Link)`
+text-decoration: none;
+color: white;
+padding: 0.5rem 1.5rem;
+background-color: green
 `;
 
 const HeaderContainer = styled.div`
