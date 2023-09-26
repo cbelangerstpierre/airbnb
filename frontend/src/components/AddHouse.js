@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import PhotoUpload from "./PhotoUpload";
 import bghouse from "../images/bghouse.jpg";
 import DateAvailabilityPicker from "./DateAvailabilityPicker";
+import PhotoUpload from "./PhotoUpload";
 
 const AddHouse = () => {
   const [uploadedPhotos, setUploadedPhotos] = useState([]);

@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import airbnbLogo from "../images/airbnb.png";
 import { Link } from "react-router-dom";
+import { s3url } from "../utils";
+import profilePhoto from "../images/profile.png";
 
 const Header = ({ user }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [user, setUser] = useState(null);
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    window.location.href = "/";
   };
 
   console.log(user);
@@ -23,25 +31,19 @@ const Header = ({ user }) => {
       {user ? (
         <ProfileContainer>
           <ProfilePhoto
-            src={require(`../images/${user.profilePhoto}`)}
+            src={user.photo ? `${s3url}${user.photo}` : profilePhoto}
             alt="Profile"
             onClick={toggleDropdown}
           />
           {isDropdownOpen && (
             <Dropdown>
-              <UserName>{user.name}</UserName>
-              <LogoutButton
-                onClick={() => {
-                  /* TODO */
-                }}
-              >
-                Logout
-              </LogoutButton>
+              <UserName>{user.fullName}</UserName>
+              <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
             </Dropdown>
           )}
         </ProfileContainer>
       ) : (
-        <LogInLink href="#">Log In</LogInLink>
+        <LogInLink to="/login">Log In</LogInLink>
       )}
     </HeaderContainer>
   );
@@ -99,16 +101,18 @@ const Dropdown = styled.div`
   right: 0;
   background-color: #fff;
   border: 1px solid #ccc;
-  padding: .75rem;
+  padding: 0.75rem;
   width: 250%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1;
 `;
 
-const LogInLink = styled.a`
+const LogInLink = styled(Link)`
   text-decoration: none;
-  color: #333333;
-  margin-left: 1rem;
+  // color: #333333;
+  color: black;
+  font-size: 1.5rem;
+  // margin-left: 1rem;
   font-weight: bold;
 `;
 
@@ -122,7 +126,7 @@ const LogoutButton = styled.button`
   background-color: #ff5a5f;
   border: none;
   color: #fff;
-  padding: .4rem .6rem;
+  padding: 0.4rem 0.6rem;
   font-size: larger;
   cursor: pointer;
 `;

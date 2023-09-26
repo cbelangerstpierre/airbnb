@@ -1,1 +1,3 @@
 Lots of difficulties with uploading photos, I first started with a base64 encoder, then changed to a gridfs directly in MongoDb and finally with a cloud provider (S3)
+
+Problem : We will need to delete the photo from S3 if the user couldn't be created.
