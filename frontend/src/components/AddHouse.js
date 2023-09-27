@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import bghouse from "../images/bghouse.jpg";
 import DateAvailabilityPicker from "./DateAvailabilityPicker";
 import PhotoUpload from "./PhotoUpload";
+import { useFetchUser } from "../utils";
+import { Link } from "react-router-dom";
 
-const AddHouse = (user) => {
+const AddHouse = () => {
+  // const [user, setUser] = useState(null);
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
   const [selectedDates, setSelectedDates] = useState([null, null]);
-
+  const user = useFetchUser();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -20,6 +23,13 @@ const AddHouse = (user) => {
     city: "",
     province: "",
   });
+
+  // useFetchUser().then((user) => {
+  //   if (!user) {
+  //     navigate("/login");
+  //   }
+  //   setUser(user);
+  // });
 
   const handleNumberInputChange = (event, field) => {
     const newValue = parseInt(event.target.value, 10);
@@ -128,6 +138,15 @@ const AddHouse = (user) => {
       console.error("Error adding house:", error);
     }
   };
+
+  if (!user) {
+    return (
+      <>
+        <h1>Please login to add a house</h1>
+        <Link to="/login">Continue to login page</Link>
+      </>
+    );
+  }
 
   return (
     <FormContainer>

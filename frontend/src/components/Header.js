@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { styled } from "styled-components";
 import airbnbLogo from "../images/airbnb.png";
 import { Link } from "react-router-dom";
-import { s3url } from "../utils";
+import { s3url, useFetchUser } from "../utils";
 import profilePhoto from "../images/profile.png";
 
-const Header = ({ user }) => {
+const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  // const [user, setUser] = useState(null);
+  const user = useFetchUser();
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -20,7 +20,7 @@ const Header = ({ user }) => {
 
   return (
     <HeaderContainer>
-      <LeftLink to="/">
+      <LeftLink to="/" onClick={() => setIsDropdownOpen(false)}>
         <Left>
           <Logo src={airbnbLogo} alt="Airbnb Logo" />
           <AirbnbName>Airbnb</AirbnbName>
@@ -36,7 +36,8 @@ const Header = ({ user }) => {
           {isDropdownOpen && (
             <Dropdown>
               <UserName>{user.fullName}</UserName>
-              <AddHomeButton to="/add">Add a house</AddHomeButton>
+              <ViewListings to="/my-listings" onClick={toggleDropdown}>View my listings</ViewListings>
+              <AddHomeButton to="/add" onClick={toggleDropdown}>Add a house</AddHomeButton>
               <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
             </Dropdown>
           )}
@@ -58,10 +59,19 @@ const LeftLink = styled(Link)`
 `;
 
 const AddHomeButton = styled(Link)`
-text-decoration: none;
-color: white;
-padding: 0.5rem 1.5rem;
-background-color: green
+  text-decoration: none;
+  color: white;
+  padding: 0.4rem 0.6rem;
+  background-color: green;
+`;
+
+const ViewListings = styled(Link)`
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    color: blue;
+  }
 `;
 
 const HeaderContainer = styled.div`
@@ -125,7 +135,8 @@ const LogInLink = styled(Link)`
 const UserName = styled.div`
   font-weight: bold;
   font-size: larger;
-  margin-bottom: 4px;
+  margin: 0;
+  // margin-bottom: 4px;
 `;
 
 const LogoutButton = styled.button`

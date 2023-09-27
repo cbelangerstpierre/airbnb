@@ -82,6 +82,7 @@ const uploadImages = async (req, res) => {
 };
 
 const addHouse = async (req, res) => {
+  console.log(req.body);
   try {
     const newHouse = new House({
       title: req.body.title,
@@ -115,6 +116,45 @@ const getAllHouses = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+const getMyHouses = async (req, res) => {
+  let hostId = req.params.id;
+  let houses = await getAllHouses(req, res);
+  // TODO, check if I can do this, or if I should just copy paste
+};
+
+const getHouse = async (req, res) => {
+  try {
+    let houseId = req.params.id;
+    const house = await House.findById(houseId);
+
+    if (!house) {
+      return res.status(404).json({ error: "House not found" });
+    }
+
+    return res.json(house);
+  } catch (error) {
+    console.error("Error retrieving house:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+const getUser = async (req, res) => {
+  try {
+    let userId = req.params.id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "Host not found" });
+    }
+
+    return res.json(user);
+  } catch (error) {
+    console.error("Error retrieving the user:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 
 const generateRandomKey = () => {
   const randomString = crypto.randomBytes(16).toString("hex");
@@ -250,4 +290,7 @@ module.exports = {
   Login,
   GetUser,
   DeleteUser,
+  getMyHouses,
+  getHouse,
+  getUser,
 };

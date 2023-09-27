@@ -2,19 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { s3url } from "../utils";
 import housePlaceholder from "../images/house-placeholder.png";
+import { useNavigate } from "react-router-dom";
+import { formatDate } from "../utils";
 
 const HousePreview = ({ house }) => {
-  const formattedDates = house.availabilities
-    .map((date) => {
-      return new Date(date).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      });
-    })
-    .join(" - ");
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/house/${house._id}`);
+  };
 
   return (
-    <HousePreviewContainer>
+    <HousePreviewContainer onClick={handleClick}>
       <HouseImage
         src={
           house.photos.length > 0
@@ -28,9 +27,7 @@ const HousePreview = ({ house }) => {
           <CityProvince>
             {house.city}, {house.province}
           </CityProvince>
-          <Availabilities>
-            {formattedDates}
-          </Availabilities>
+          <Availabilities>{formatDate(house.availabilities)}</Availabilities>
           <Price>${house.pricePerNight} per night</Price>
         </Left>
         <Right>

@@ -9,6 +9,9 @@ const {
   Signup,
   GetUser,
   DeleteUser,
+  getMyHouses,
+  getHouse,
+  getUser,
 } = require("./handlers");
 const app = express();
 app.set("view engine", "ejs");
@@ -26,7 +29,10 @@ app
   .post("/api/login", Login)
   .post("/api/signup", Signup)
   .get("/api/get-user/:id", GetUser)
-  .delete("/api/delete-user", DeleteUser);
+  .delete("/api/delete-user", DeleteUser)
+  .get("/api/houses/:id", getMyHouses)
+  .get("/api/house/:id", getHouse)
+  .get("/api/user/:id", getUser)
 
 app.listen(5000, () => {
   console.log("Server is running on http://localhost:5000");
