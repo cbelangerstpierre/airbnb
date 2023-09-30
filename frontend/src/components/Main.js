@@ -19,6 +19,15 @@ function Main() {
       house.province.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  function sortHousesByAvailabilities() {
+    const sortedHouses = [...houses].sort((houseA, houseB) =>
+      new Date(houseA.availabilities[0]) - new Date(houseB.availabilities[0]) ||
+      new Date(houseA.availabilities[1]) - new Date(houseB.availabilities[1])
+    );
+    setHouses(sortedHouses);
+    console.log(sortedHouses);
+  }
+
   return (
     <Container>
       <SearchBar
@@ -27,6 +36,7 @@ function Main() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      <SortDate onClick={() => sortHousesByAvailabilities()}>Sort by date</SortDate>
       <Houses>
         {filteredHouses.map((house, index) => (
           <HousePreview key={index} house={house} />
@@ -42,6 +52,23 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const SortDate = styled.button`
+  border-radius: 2rem;
+  padding: .5rem 1rem;
+  border: 1px solid grey;
+  background-color: lightblue;
+  font-weight: bold;
+  color: black;
+  cursor: pointer;
+  transition-duration: .5s;
+
+  &:hover {
+    background-color: white;
+    transform: scale(1.1);
+  }
+
 `;
 
 const Houses = styled.div`
