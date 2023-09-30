@@ -39,22 +39,27 @@ function Main() {
 export default Main;
 
 const Container = styled.div`
-display: flex;
-flex-direction: column;
-align-items: left;`;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const Houses = styled.div`
   padding: 2rem;
   display: flex;
-  justify-content: left;
+  justify-content: space-around;
   gap: 2rem;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  max-width: 100%;
 `;
 
 const SearchBar = styled.input`
   padding: 0.5rem;
   border: none;
   border-bottom: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
   // border-radius: 4px;
   margin-bottom: 1rem;
   font-size: 16px;

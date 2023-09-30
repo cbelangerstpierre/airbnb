@@ -12,7 +12,6 @@ const HouseDetails = () => {
   const [host, setHost] = useState(null);
 
   useEffect(() => {
-    // Fetch house data using the id parameter
     fetch(`/api/house/${id}`)
       .then((response) => response.json())
       .then((data) => {
@@ -23,13 +22,6 @@ const HouseDetails = () => {
           .catch((error) => console.error("Error fetching house data:", error));
       })
       .catch((error) => console.error("Error fetching house data:", error));
-    // if (house !== null) {
-    //   console.log(house);
-    //   fetch(`/api/user/${house.hostId}`)
-    //     .then((response) => response.json())
-    //     .then((data) => setHost(data))
-    //     .catch((error) => console.error("Error fetching house data:", error));
-    // }
   }, [id]);
 
   if (!house) {
@@ -56,7 +48,7 @@ const HouseDetails = () => {
               borderColor: "grey",
               height: "1px",
               width: "30vw",
-              margin: "0"
+              margin: "0",
             }}
           />
           <HostPreview host={host} />
@@ -155,12 +147,20 @@ const ReserveSection = styled.div`
 
 const CarouselContainer = styled.div`
   width: 60%;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const Top = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 2rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Details = styled.div`
@@ -168,6 +168,12 @@ const Details = styled.div`
   margin-top: 2rem;
   justify-content: space-between;
   width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 3rem;
+    align-items: center;
+  }
 `;
 
 const Title = styled.h2`
