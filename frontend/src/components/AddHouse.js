@@ -4,12 +4,13 @@ import bghouse from "../images/bghouse.jpg";
 import DateAvailabilityPicker from "./DateAvailabilityPicker";
 import PhotoUpload from "./PhotoUpload";
 import { useFetchUser } from "../utils";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AddHouse = () => {
   // const [user, setUser] = useState(null);
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
   const [selectedDates, setSelectedDates] = useState([null, null]);
+  const navigate = useNavigate();
   const user = useFetchUser();
   const [formData, setFormData] = useState({
     title: "",
@@ -134,6 +135,10 @@ const AddHouse = () => {
 
       const data = await response.json();
       console.log("House added successfully:", data);
+      setTimeout(function () {
+        navigate("/");
+        window.location.reload();
+      }, 2500);
     } catch (error) {
       console.error("Error adding house:", error);
     }
