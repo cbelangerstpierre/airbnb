@@ -82,7 +82,6 @@ const uploadImages = async (req, res) => {
 };
 
 const addHouse = async (req, res) => {
-  console.log(req.body);
   try {
     const newHouse = new House({
       title: req.body.title,
@@ -117,12 +116,6 @@ const getAllHouses = async (req, res) => {
   }
 };
 
-const getMyHouses = async (req, res) => {
-  let hostId = req.params.id;
-  let houses = await getAllHouses(req, res);
-  // TODO, check if I can do this, or if I should just copy paste
-};
-
 const getHouse = async (req, res) => {
   try {
     let houseId = req.params.id;
@@ -155,6 +148,14 @@ const getUser = async (req, res) => {
   }
 };
 
+const getHousesByHostId = async (req, res) => {
+  try {
+    const houses = await House.find({ hostId: req.params.id });
+    res.status(200).json(houses);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const generateRandomKey = () => {
   const randomString = crypto.randomBytes(16).toString("hex");
@@ -174,7 +175,6 @@ const Login = async (req, res) => {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (isPasswordValid) {
-      console.log("Password is correct");
       return res.status(200).json({
         message: "Login Successful",
         user: {
@@ -282,6 +282,22 @@ const DeleteUser = async (req, res) => {
   }
 };
 
+const deleteHouse = async (req, res) => {
+  try {
+    const houseId = req.params.id;
+
+    const deletedHouse = await House.findByIdAndDelete(houseId);
+
+    if (!deletedHouse) {
+      return res.status(404).json({ message: 'House not found' });
+    }
+
+    return res.status(200).json({ message: 'House deleted successfully' });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   uploadImages,
   addHouse,
@@ -290,7 +306,8 @@ module.exports = {
   Login,
   GetUser,
   DeleteUser,
-  getMyHouses,
   getHouse,
   getUser,
+  getHousesByHostId,
+  deleteHouse,
 };

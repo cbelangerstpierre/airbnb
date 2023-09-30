@@ -127,14 +127,13 @@ const AddHouse = () => {
         body: JSON.stringify(postData),
       });
 
-      console.log(response);
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      console.log("House added successfully:", data);
+      // console.log("House added successfully:", data);
       setTimeout(function () {
         navigate("/");
         window.location.reload();

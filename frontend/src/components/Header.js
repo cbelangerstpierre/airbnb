@@ -36,7 +36,7 @@ const Header = () => {
           {isDropdownOpen && (
             <Dropdown>
               <UserName>{user.fullName}</UserName>
-              <ViewListings to="/my-listings" onClick={toggleDropdown}>View my listings</ViewListings>
+              <Profile to={`/user/${user._id}`} onClick={toggleDropdown}>Profile</Profile>
               <AddHomeButton to="/add" onClick={toggleDropdown}>Add a house</AddHomeButton>
               <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
             </Dropdown>
@@ -65,7 +65,7 @@ const AddHomeButton = styled(Link)`
   background-color: green;
 `;
 
-const ViewListings = styled(Link)`
+const Profile = styled(Link)`
   text-decoration: none;
   color: black;
 

@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 
-const HouseCarousel = ({ photos }) => {
+const HouseCarousel = ({ photos, placeholder = false }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -21,7 +21,7 @@ const HouseCarousel = ({ photos }) => {
         <div key={index}>
           <ImageContainer>
             <HouseImage
-              src={`${s3url}${photo}`}
+              src={placeholder ? photo : `${s3url}${photo}`}
               alt={`House Photo ${index + 1}`}
             />
           </ImageContainer>

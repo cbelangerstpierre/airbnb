@@ -59,11 +59,9 @@ const Login = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("API call successful");
         setSuccessMsg(data.message);
 
         const user = data.user;
-        console.log(user);
 
         document.cookie = `user=${JSON.stringify(user._id)}; max-age=${
           60 * 60 * 24

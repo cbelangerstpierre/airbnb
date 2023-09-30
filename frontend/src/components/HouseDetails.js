@@ -5,6 +5,7 @@ import HouseCarousel from "./HouseCarousel.js";
 import { formatDate } from "../utils.js";
 import Review from "./Review.js";
 import HostPreview from "./HostPreview.js";
+import housePlaceholder from "../images/house-placeholder.png";
 
 const HouseDetails = () => {
   const { id } = useParams();
@@ -33,7 +34,10 @@ const HouseDetails = () => {
       <Title>{house.title}</Title>
       <Top>
         <CarouselContainer>
-          <HouseCarousel photos={house.photos} />
+          <HouseCarousel
+            photos={house.photos.length > 0 ? house.photos : [housePlaceholder]}
+            placeholder={house.photos.length === 0}
+          />
         </CarouselContainer>
         <Description>{house.description}</Description>
       </Top>
