@@ -2,6 +2,13 @@ import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import styled from 'styled-components';
 
+/**
+ * PhotoUpload component for uploading photos.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Function} props.onPhotosUploaded - Callback function for when photos are uploaded.
+ * @return {JSX.Element} Rendered component.
+ */
 const PhotoUpload = ({ onPhotosUploaded }) => {
   const onDrop = useCallback((acceptedFiles) => {
     onPhotosUploaded(acceptedFiles);

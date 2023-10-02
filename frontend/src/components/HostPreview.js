@@ -3,6 +3,13 @@ import styled from "styled-components";
 import { s3url } from "../utils";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * HostPreview Component displays information about a host.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.host - The host information.
+ * @returns {JSX.Element} JSX.Element representing the HostPreview component.
+ */
 const HostPreview = ({ host }) => {
     const navigate = useNavigate();
 

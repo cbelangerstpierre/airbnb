@@ -4,6 +4,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 
+/**
+ * HouseCarousel Component renders a carousel displaying house photos.
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array} props.photos - An array of URLs representing the house photos.
+ * @param {boolean} [props.placeholder=false] - Indicates whether a placeholder image should be used.
+ * @returns {JSX.Element} JSX.Element representing the HouseCarousel component.
+ */
 const HouseCarousel = ({ photos, placeholder = false }) => {
   const settings = {
     dots: true,

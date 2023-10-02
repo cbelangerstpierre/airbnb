@@ -7,6 +7,11 @@ import { handleSubmitPhoto, useFetchUser } from "../utils";
 import { Link, useNavigate } from "react-router-dom";
 import HouseForm from "./HouseForm";
 
+/**
+ * AddHouse Component allows authenticated users to add a new house listing.
+ * @component
+ * @returns {JSX.Element} JSX.Element representing the AddHouse component.
+ */
 const AddHouse = () => {
   const navigate = useNavigate();
   const user = useFetchUser();
@@ -25,6 +30,14 @@ const AddHouse = () => {
     province: "",
   });
 
+  /**
+   * Handles form submission. Uploads photos, prepares data, and sends a POST request.
+   * Navigates to the homepage upon successful submission.
+   * @async
+   * @function
+   * @param {Event} event - The form submission event.
+   * @returns {void}
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 

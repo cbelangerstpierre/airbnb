@@ -7,11 +7,19 @@ import Review from "./Review.js";
 import HostPreview from "./HostPreview.js";
 import housePlaceholder from "../images/house-placeholder.png";
 
+/**
+ * HouseDetails Component displays detailed information about a specific house listing.
+ * @component
+ * @returns {JSX.Element} JSX.Element representing the HouseDetails component.
+ */
 const HouseDetails = () => {
   const { id } = useParams();
   const [house, setHouse] = useState(null);
   const [host, setHost] = useState(null);
 
+  /**
+   * Fetches house data and host information when the component mounts.
+   */
   useEffect(() => {
     fetch(`/api/house/${id}`)
       .then((response) => response.json())
@@ -25,6 +33,9 @@ const HouseDetails = () => {
       .catch((error) => console.error("Error fetching house data:", error));
   }, [id]);
 
+  /**
+   * Renders a loading message if house data is not yet available.
+   */
   if (!house) {
     return <LoadingMessage>Loading...</LoadingMessage>;
   }

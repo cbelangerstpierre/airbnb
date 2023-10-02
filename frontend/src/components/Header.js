@@ -5,14 +5,25 @@ import { Link } from "react-router-dom";
 import { s3url, useFetchUser } from "../utils";
 import profilePhoto from "../images/profile.png";
 
+/**
+ * Header Component renders the header of the application.
+ * @component
+ * @returns {JSX.Element} JSX.Element representing the Header component.
+ */
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const user = useFetchUser();
 
+  /**
+   * Toggles the dropdown menu.
+   */
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  /**
+   * Handles the user logout process.
+   */
   const handleLogout = () => {
     document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     window.location.href = "/";

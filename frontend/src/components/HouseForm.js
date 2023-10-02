@@ -6,6 +6,20 @@ import DateAvailabilityPicker from "./DateAvailabilityPicker";
 import PhotoUpload from "./PhotoUpload";
 import { s3url } from "../utils";
 
+/**
+ * HouseForm Component displays a form for creating or editing a house listing.
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Function} props.onSubmit - The function to be executed when the form is submitted.
+ * @param {Object} props.formData - The current form data.
+ * @param {Function} props.setFormData - Function to set the form data.
+ * @param {Array} props.uploadedPhotos - Array of uploaded photos.
+ * @param {Function} props.setUploadedPhotos - Function to set the uploaded photos.
+ * @param {Array} props.selectedDates - Array of selected dates.
+ * @param {Function} props.setSelectedDates - Function to set the selected dates.
+ * @param {string} props.title - The title of the form.
+ * @returns {JSX.Element} JSX.Element representing the HouseForm component.
+ */
 const HouseForm = ({
   onSubmit,
   formData,
@@ -16,8 +30,13 @@ const HouseForm = ({
   setSelectedDates,
   title,
 }) => {
-
-
+  /**
+   * Handles the change event for number inputs.
+   * @function
+   * @param {Event} event - The event object.
+   * @param {string} field - The field name to be updated.
+   * @returns {void}
+   */
   const handleNumberInputChange = (event, field) => {
     const newValue = parseInt(event.target.value, 10);
     if (!isNaN(newValue) && newValue >= 0) {
@@ -28,6 +47,12 @@ const HouseForm = ({
     }
   };
 
+  /**
+   * Handles the change event for the price input.
+   * @function
+   * @param {Event} event - The event object.
+   * @returns {void}
+   */
   const handlePriceChange = (event) => {
     const inputValue = event.target.value;
 
@@ -37,6 +62,12 @@ const HouseForm = ({
     });
   };
 
+  /**
+   * Handles the blur event for the price input.
+   * @function
+   * @param {Event} event - The event object.
+   * @returns {void}
+   */
   const handlePriceBlur = (event) => {
     const inputValue = event.target.value;
     const newValue = parseFloat(inputValue).toFixed(2);
@@ -52,19 +83,43 @@ const HouseForm = ({
     }
   };
 
+  /**
+   * Handles the change of selected dates.
+   * @function
+   * @param {Array<Date>} dates - Array of selected dates.
+   * @returns {void}
+   */
   const handleDateChange = (dates) => {
     setSelectedDates(dates);
   };
 
+  /**
+   * Handles the event when photos are uploaded.
+   * @function
+   * @param {Array<File>} photos - Array of uploaded photos.
+   * @returns {void}
+   */
   const handlePhotosUploaded = (photos) => {
     setUploadedPhotos((prevPhotos) => [...prevPhotos, ...photos]);
   };
 
+  /**
+   * Handles the event when a photo is removed.
+   * @function
+   * @param {number} index - Index of the photo to be removed.
+   * @returns {void}
+   */
   const handleRemovePhoto = (index) => {
     const updatedPhotos = uploadedPhotos.filter((_, i) => i !== index);
     setUploadedPhotos(updatedPhotos);
   };
 
+  /**
+   * Handles the change event for form inputs.
+   * @function
+   * @param {Event} e - The event object.
+   * @returns {void}
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -104,11 +159,18 @@ const HouseForm = ({
           {uploadedPhotos.map((photo, index) => {
             return (
               <PhotoPreviewDiv key={index}>
-                <RemoveButton type="button" onClick={() => handleRemovePhoto(index)}>
+                <RemoveButton
+                  type="button"
+                  onClick={() => handleRemovePhoto(index)}
+                >
                   x
                 </RemoveButton>
                 <PhotoPreview
-                  src={typeof photo === "string" ? `${s3url}${photo}` : URL.createObjectURL(photo)}
+                  src={
+                    typeof photo === "string"
+                      ? `${s3url}${photo}`
+                      : URL.createObjectURL(photo)
+                  }
                   alt={`Uploaded Photo ${index + 1}`}
                 />
               </PhotoPreviewDiv>

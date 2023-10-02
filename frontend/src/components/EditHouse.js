@@ -5,6 +5,11 @@ import { handleSubmitPhoto, useFetchUser } from "../utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import HouseForm from "./HouseForm";
 
+/**
+ * EditHouse Component allows the host to edit their house listing.
+ * @component
+ * @returns {JSX.Element} JSX.Element representing the EditHouse component.
+ */
 const EditHouse = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -25,6 +30,11 @@ const EditHouse = () => {
     province: "",
   });
 
+  /**
+   * Fetches house data for editing upon component mount.
+   * Populates form with existing data.
+   * @param {string} id - The ID of the house to edit.
+   */
   useEffect(() => {
     fetch(`/api/house/${id}`)
       .then((response) => response.json())
@@ -50,6 +60,10 @@ const EditHouse = () => {
       .catch((error) => console.error("Error fetching house data:", error));
   }, [id]);
 
+  /**
+   * Handles form submission. Uploads photos, prepares data, and sends a PATCH request to edit the house.
+   * @param {Event} event - The submit event triggered by the form.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -93,6 +107,10 @@ const EditHouse = () => {
     }
   };
 
+  /**
+   * Checks if the user is logged in. If not, displays a message and a link to the login page.
+   * @returns {JSX.Element} JSX.Element representing the login message or link.
+   */
   if (!user) {
     return (
       <>
@@ -102,6 +120,10 @@ const EditHouse = () => {
     );
   }
 
+  /**
+   * Checks if house data is being fetched. Displays a loading message if data is not yet available.
+   * @returns {JSX.Element} JSX.Element representing the loading message.
+   */
   if (!house) {
     return (
       <>
@@ -110,6 +132,10 @@ const EditHouse = () => {
     );
   }
 
+  /**
+   * Checks if the current user is the host of the house. If not, displays a message and a link to the login page.
+   * @returns {JSX.Element} JSX.Element representing the unauthorized message or link.
+   */
   if (house !== null && house.hostId !== user._id) {
     return (
       <>

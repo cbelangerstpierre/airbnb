@@ -9,6 +9,11 @@ import profilePhoto from "../images/profile.png";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 
+/**
+ * UserProfile component displays user profile information and their houses.
+ * @component
+ * @return {JSX.Element} Rendered component.
+ */
 function UserProfile() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
@@ -30,6 +35,11 @@ function UserProfile() {
       .catch((error) => console.error("Error:", error));
   }, [id]);
 
+  /**
+   * Handles the deletion of a house.
+   * @param {number} index - The index of the house in the userHouses array.
+   * @returns {void}
+   */
   const handleDelete = (index) => {
     const houseIdToDelete = userHouses[index]._id;
 
@@ -54,6 +64,11 @@ function UserProfile() {
       });
   };
 
+  /**
+   * Handles the editing of a house.
+   * @param {number} index - The index of the house in the userHouses array.
+   * @returns {void}
+   */
   const handleEdit = (index) => {
     const houseIdToEdit = userHouses[index]._id;
     navigate(`/edit-house/${houseIdToEdit}`);
@@ -63,6 +78,10 @@ function UserProfile() {
     return <LoadingContainer>Loading...</LoadingContainer>;
   }
 
+  /**
+   * Renders the UserProfile component.
+   * @returns {JSX.Element} Rendered component.
+   */
   return (
     <Container>
       <ProfileInfo>

@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Login component for handling user authentication.
+ * @component
+ * @return {JSX.Element} Rendered component.
+ */
 const Login = () => {
   const [formType, setFormType] = useState("login");
   const [showSignUpFields, setShowSignUpFields] = useState(false);
@@ -19,6 +24,14 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  /**
+   * Handles form submission for both login and signup scenarios.
+   * If in signup mode, it also validates that the passwords match.
+   * Sends the form data to the server for authentication or signup.
+   * If successful, updates the user state and sets a cookie.
+   *
+   * @param {Event} e - The form submission event.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -81,10 +94,21 @@ const Login = () => {
     }
   };
 
+  /**
+   * Handles the event when a user uploads a photo.
+   * Sets the uploaded photo in the component's state.
+   *
+   * @param {Event} event - The input change event containing the uploaded photo.
+   */
   const handlePhotoUpload = (event) => {
     setPhoto(event.target.files[0]);
   };
 
+  /**
+   * Sends the uploaded photo to the server for processing and returns the photo URL(s).
+   *
+   * @return {Promise<string[]>} - An array of photo URL(s) returned from the server.
+   */
   const handleSubmitPhoto = async () => {
     const FormDataPhoto = new FormData();
     FormDataPhoto.append("files", photo);
@@ -98,6 +122,11 @@ const Login = () => {
     return data.keys;
   };
 
+  /**
+   * Updates the form data in the component's state when the user types in the input fields.
+   *
+   * @param {Event} e - The input change event.
+   */
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -106,10 +135,16 @@ const Login = () => {
     }));
   };
 
+  /**
+   * Toggles between login and signup modes by changing the form type.
+   */
   const handleFormToggle = () => {
     setFormType((prevType) => (prevType === "login" ? "signup" : "login"));
   };
 
+  /**
+   * Sets the component to show signup-specific fields.
+   */
   const handleSignUpClick = () => {
     setShowSignUpFields(true);
   };

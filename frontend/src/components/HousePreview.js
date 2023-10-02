@@ -5,9 +5,18 @@ import housePlaceholder from "../images/house-placeholder.png";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../utils";
 
+/**
+ * Renders a preview card for a house listing.
+ *
+ * @param {Object} house - The house object with details like title, city, province, etc.
+ */
 const HousePreview = ({ house }) => {
   const navigate = useNavigate();
 
+  /**
+   * Handles the click event when the user clicks on the house preview card.
+   * Navigates to the detailed page of the corresponding house.
+   */
   const handleClick = () => {
     navigate(`/house/${house._id}`);
   };
