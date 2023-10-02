@@ -104,7 +104,7 @@ const HouseForm = ({
           {uploadedPhotos.map((photo, index) => {
             return (
               <PhotoPreviewDiv key={index}>
-                <RemoveButton onClick={() => handleRemovePhoto(index)}>
+                <RemoveButton type="button" onClick={() => handleRemovePhoto(index)}>
                   x
                 </RemoveButton>
                 <PhotoPreview
