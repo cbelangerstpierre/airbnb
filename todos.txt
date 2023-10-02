@@ -1,17 +1,8 @@
-1. only the host can modify the house
-4. A page component where you can see the profile of someone with their picture in bigger format, a short description of the person,
-   a list of their listed houses
-5. Houses list is one per row on mobile and 3 on computer (Flex, to see how it works)
-7. The add house, will be transformed into something that can update, it will receive an id for a house that can be null, if it is null, then it means that we add, if it is something then it will update it.
-
-
-
- 
-En gros :
-Ajouter une page de profil pour un utilisateur ou est-ce qu'on peut voir toutes ses maisons. Si tu es sur ta propre page alors tu peux editer tes maisons, ça va t'emmener sur la page addHouse, avec les informations qui sont déjà là et quand tu cliqueras sur Submit ça va update.
-
-1. Ajouter un bouton au main pour trier par date
-
-
-
-Extra : Rendre le code beau aussi sur mobile, Améliorer le code 
+1. Add Reviews
+2. Add reservation
+3. Add multiple schedules for one house
+4. Delete the photos when removing photos (update and delete housing)
+5. Add a map to see the houses geographically
+6. Filter by number of guests / beds / etc...
+7. Separate the big files in multiple components
+8. Separate the big functions in multiple functions
