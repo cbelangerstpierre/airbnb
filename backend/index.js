@@ -13,6 +13,7 @@ const {
   getUser,
   getHousesByHostId,
   deleteHouse,
+  editHouse,
 } = require("./handlers");
 const app = express();
 app.set("view engine", "ejs");
@@ -34,7 +35,8 @@ app
   .get("/api/house/:id", getHouse)
   .get("/api/user/:id", getUser)
   .get("/api/houses/:id", getHousesByHostId)
-  .delete("/api/house/:id", deleteHouse);
+  .delete("/api/house/:id", deleteHouse)
+  .patch("/api/edit-house/:id", upload.array("files", 10), editHouse);
 
 app.listen(5000, () => {
   console.log("Server is running on http://localhost:5000");

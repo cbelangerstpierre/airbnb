@@ -25,7 +25,6 @@ function Main() {
       new Date(houseA.availabilities[1]) - new Date(houseB.availabilities[1])
     );
     setHouses(sortedHouses);
-    console.log(sortedHouses);
   }
 
   return (

@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import bghouse from "../images/bghouse.jpg";
-import DateAvailabilityPicker from "./DateAvailabilityPicker";
 import PhotoUpload from "./PhotoUpload";
 import { useFetchUser } from "../utils";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import HouseForm from "./HouseForm";
 
-const AddHouse = () => {
+const EditHouse = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const user = useFetchUser();
+  const [house, setHouse] = useState(null);
   const [uploadedPhotos, setUploadedPhotos] = useState([]);
   const [selectedDates, setSelectedDates] = useState([null, null]);
   const [formData, setFormData] = useState({
@@ -25,10 +25,37 @@ const AddHouse = () => {
     province: "",
   });
 
+  useEffect(() => {
+    fetch(`/api/house/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setHouse(data);
+        setFormData({
+          title: data.title,
+          description: data.description,
+          pricePerNight: data.pricePerNight.toString(),
+          guests: data.guests.toString(),
+          bedrooms: data.bedrooms.toString(),
+          beds: data.beds.toString(),
+          baths: data.baths.toString(),
+          address: data.address,
+          city: data.city,
+          province: data.province,
+        });
+        setUploadedPhotos(data.photos);
+        setSelectedDates(
+          data.availabilities.map((dateString) => new Date(dateString))
+        );
+      })
+      .catch((error) => console.error("Error fetching house data:", error));
+  }, [id]);
+
   const handleSubmitPhoto = async () => {
     const formDataPhotos = new FormData();
+    const stringArray = uploadedPhotos.filter((item) => typeof item === "string");
+    const fileArray = uploadedPhotos.filter((item) => item instanceof File);
 
-    uploadedPhotos.forEach((photo) => {
+    fileArray.forEach((photo) => {
       formDataPhotos.append("files", photo);
     });
 
@@ -38,7 +65,7 @@ const AddHouse = () => {
     });
 
     const data = await response.json();
-    return data.keys;
+    return stringArray.concat(data.keys);
   };
 
   const handleSubmit = async (event) => {
@@ -56,8 +83,8 @@ const AddHouse = () => {
         hostId: user._id,
       };
 
-      const response = await fetch("/api/add-house", {
-        method: "POST",
+      const response = await fetch(`/api/edit-house/${id}`, {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
@@ -81,7 +108,24 @@ const AddHouse = () => {
   if (!user) {
     return (
       <>
-        <h1>Please login to add a house</h1>
+        <h1>Please login to edit a house</h1>
+        <Link to="/login">Continue to login page</Link>
+      </>
+    );
+  }
+
+  if (!house) {
+    return (
+      <>
+        <h1>Loading...</h1>
+      </>
+    );
+  }
+
+  if (house !== null && house.hostId !== user._id) {
+    return (
+      <>
+        <h1>You need to be the host of this house to edit it</h1>
         <Link to="/login">Continue to login page</Link>
       </>
     );
@@ -96,9 +140,9 @@ const AddHouse = () => {
       setUploadedPhotos={setUploadedPhotos}
       selectedDates={selectedDates}
       setSelectedDates={setSelectedDates}
-      title="Submit a new house"
+      title="Edit your house"
     />
   );
 };
 
-export default AddHouse;
+export default EditHouse;

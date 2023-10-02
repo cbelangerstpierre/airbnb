@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { s3url, useFetchUser } from "../utils";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import HousePreview from "./HousePreview";
+import { Link } from "react-router-dom";
+import profilePhoto from "../images/profile.png";
 
 import { AiTwotoneDelete } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
@@ -12,6 +14,7 @@ function UserProfile() {
   const [user, setUser] = useState(null);
   const connectedUser = useFetchUser();
   const [userHouses, setUserHouses] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`/api/user/${id}`)
@@ -29,26 +32,31 @@ function UserProfile() {
 
   const handleDelete = (index) => {
     const houseIdToDelete = userHouses[index]._id;
-  
+
     fetch(`/api/house/${houseIdToDelete}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to delete house');
+          throw new Error("Failed to delete house");
         }
         return response.json();
       })
       .then((data) => {
-        console.log('House deleted successfully', data);
+        console.log("House deleted successfully", data);
         setUserHouses((prevHouses) => prevHouses.filter((_, i) => i !== index));
       })
       .catch((error) => {
-        console.error('Error deleting house:', error);
+        console.error("Error deleting house:", error);
       });
+  };
+
+  const handleEdit = (index) => {
+    const houseIdToEdit = userHouses[index]._id;
+    navigate(`/edit-house/${houseIdToEdit}`);
   };
 
   if (!user) {
@@ -58,7 +66,10 @@ function UserProfile() {
   return (
     <Container>
       <ProfileInfo>
-        <ProfileImage src={`${s3url}${user.photo}`} alt="User Photo" />
+        <ProfileImage
+          src={user.photo ? `${s3url}${user.photo}` : profilePhoto}
+          alt="User Photo"
+        />
         <div>
           <UserName>{user.fullName}</UserName>
           <UserCreatedDate>
@@ -66,31 +77,41 @@ function UserProfile() {
           </UserCreatedDate>
         </div>
       </ProfileInfo>
-      <h2>My Houses</h2>
-      <Houses>
-        {userHouses.map((house, index) => (
-          <HousePreviewDiv key={index}>
-            {connectedUser && id === connectedUser._id ? (
-              <>
-                <RemoveButton onClick={() => handleDelete(index)}>
-                  <AiTwotoneDelete></AiTwotoneDelete>
-                </RemoveButton>
-                <EditButton onClick={() => console.log(index)}>
-                  <BiEditAlt></BiEditAlt>
-                </EditButton>
-              </>
-            ) : (
-              <></>
-            )}
-            <HousePreview key={index} house={house} />
-          </HousePreviewDiv>
-        ))}
-      </Houses>
+      {userHouses.length === 0 ? (
+        <NoHouses>
+          No houses available, create one <Link to="/add-house">here</Link>
+        </NoHouses>
+      ) : (
+        <>
+          <h2>My Houses</h2>
+          <Houses>
+            {userHouses.map((house, index) => (
+              <HousePreviewDiv key={index}>
+                {connectedUser && id === connectedUser._id ? (
+                  <>
+                    <RemoveButton onClick={() => handleDelete(index)}>
+                      <AiTwotoneDelete></AiTwotoneDelete>
+                    </RemoveButton>
+                    <EditButton onClick={() => handleEdit(index)}>
+                      <BiEditAlt></BiEditAlt>
+                    </EditButton>
+                  </>
+                ) : (
+                  <></>
+                )}
+                <HousePreview key={index} house={house} />
+              </HousePreviewDiv>
+            ))}
+          </Houses>
+        </>
+      )}
     </Container>
   );
 }
 
 export default UserProfile;
+
+const NoHouses = styled.div``;
 
 const Container = styled.div`
   display: flex;
@@ -155,6 +176,11 @@ const ProfileInfo = styled.div`
   display: flex;
   align-items: center;
   gap: 10rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 2rem;
+  }
 `;
 
 const ProfileImage = styled.img`

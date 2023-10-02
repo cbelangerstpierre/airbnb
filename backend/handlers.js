@@ -286,6 +286,8 @@ const deleteHouse = async (req, res) => {
   try {
     const houseId = req.params.id;
 
+    // TODO Delete the photos in S3
+
     const deletedHouse = await House.findByIdAndDelete(houseId);
 
     if (!deletedHouse) {
@@ -295,6 +297,39 @@ const deleteHouse = async (req, res) => {
     return res.status(200).json({ message: 'House deleted successfully' });
   } catch (error) {
     return res.status(500).json({ message: error.message });
+  }
+};
+
+const editHouse = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const house = await House.findById(id);
+
+    if (!house) {
+      return res.status(404).json({ message: 'House not found' });
+    }
+
+    house.title = req.body.title;
+    house.description = req.body.description;
+    house.pricePerNight = req.body.pricePerNight;
+    house.guests = req.body.guests;
+    house.bedrooms = req.body.bedrooms;
+    house.beds = req.body.beds;
+    house.baths = req.body.baths;
+    house.address = req.body.address;
+    house.city = req.body.city;
+    house.province = req.body.province;
+    house.photos = req.body.photos;
+    house.availabilities = req.body.availabilities;
+    house.hostId = req.body.hostId;
+
+    // Save the updated house
+    await house.save();
+
+    res.status(200).json({ message: 'House updated successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
@@ -310,4 +345,5 @@ module.exports = {
   getUser,
   getHousesByHostId,
   deleteHouse,
+  editHouse,
 };

@@ -7,6 +7,8 @@ import AddHouse from "./components/AddHouse";
 import Login from "./components/Login";
 import HouseDetails from "./components/HouseDetails";
 import UserProfile from "./components/UserProfile";
+import EditHouse from "./components/EditHouse"
+
 
 function App() {
 
@@ -16,10 +18,11 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/add" element={<AddHouse />} />
+          <Route path="/add-house" element={<AddHouse />} />
           <Route path="/login" element={<Login />} />
           <Route path="/house/:id" element={<HouseDetails />} />
           <Route path="/user/:id" element={<UserProfile />} />
+          <Route path="/edit-house/:id" element={<EditHouse />} />
           <Route path="/*" element={<Main />} />
         </Routes>
       </Root>

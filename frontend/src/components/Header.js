@@ -37,7 +37,7 @@ const Header = () => {
             <Dropdown>
               <UserName>{user.fullName}</UserName>
               <Profile to={`/user/${user._id}`} onClick={toggleDropdown}>Profile</Profile>
-              <AddHomeButton to="/add" onClick={toggleDropdown}>Add a house</AddHomeButton>
+              <AddHomeButton to="/add-house" onClick={toggleDropdown}>Add a house</AddHomeButton>
               <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
             </Dropdown>
           )}
