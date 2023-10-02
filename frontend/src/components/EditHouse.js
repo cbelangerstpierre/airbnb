@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PhotoUpload from "./PhotoUpload";
-import { useFetchUser } from "../utils";
+import { handleSubmitPhoto, useFetchUser } from "../utils";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import HouseForm from "./HouseForm";
 
@@ -50,30 +50,18 @@ const EditHouse = () => {
       .catch((error) => console.error("Error fetching house data:", error));
   }, [id]);
 
-  const handleSubmitPhoto = async () => {
-    const formDataPhotos = new FormData();
-    const stringArray = uploadedPhotos.filter((item) => typeof item === "string");
-    const fileArray = uploadedPhotos.filter((item) => item instanceof File);
-
-    fileArray.forEach((photo) => {
-      formDataPhotos.append("files", photo);
-    });
-
-    const response = await fetch("/api/upload-images", {
-      method: "POST",
-      body: formDataPhotos,
-    });
-
-    const data = await response.json();
-    return stringArray.concat(data.keys);
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       // Upload photos first
-      const photoUrls = await handleSubmitPhoto();
+      const stringArray = uploadedPhotos.filter(
+        (item) => typeof item === "string"
+      );
+      const fileArray = uploadedPhotos.filter((item) => item instanceof File);
+      const newUrls = await handleSubmitPhoto(fileArray);
+      const photoUrls = stringArray.concat(newUrls)
+
 
       // Prepare the data to be sent
       const postData = {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import bghouse from "../images/bghouse.jpg";
 import DateAvailabilityPicker from "./DateAvailabilityPicker";
 import PhotoUpload from "./PhotoUpload";
-import { useFetchUser } from "../utils";
+import { handleSubmitPhoto, useFetchUser } from "../utils";
 import { Link, useNavigate } from "react-router-dom";
 import HouseForm from "./HouseForm";
 
@@ -25,28 +25,12 @@ const AddHouse = () => {
     province: "",
   });
 
-  const handleSubmitPhoto = async () => {
-    const formDataPhotos = new FormData();
-
-    uploadedPhotos.forEach((photo) => {
-      formDataPhotos.append("files", photo);
-    });
-
-    const response = await fetch("/api/upload-images", {
-      method: "POST",
-      body: formDataPhotos,
-    });
-
-    const data = await response.json();
-    return data.keys;
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       // Upload photos first
-      const photoUrls = await handleSubmitPhoto();
+      const photoUrls = await handleSubmitPhoto(uploadedPhotos);
 
       // Prepare the data to be sent
       const postData = {

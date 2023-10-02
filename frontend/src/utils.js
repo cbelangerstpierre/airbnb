@@ -31,6 +31,29 @@ export const useFetchUser = () => {
   return user;
 };
 
+/**
+* Handles photo submission.
+*
+* @async
+* @function
+* @returns {Promise<string[]>} An array of photo URLs.
+*/
+export const handleSubmitPhoto = async (uploadedPhotos) => {
+ const formDataPhotos = new FormData();
+
+ uploadedPhotos.forEach((photo) => {
+   formDataPhotos.append("files", photo);
+ });
+
+ const response = await fetch("/api/upload-images", {
+   method: "POST",
+   body: formDataPhotos,
+ });
+
+ const data = await response.json();
+ return data.keys;
+};
+
 export const formatDate = (availabilities) => {
   return availabilities
     .map((date) => {
