@@ -250,6 +250,7 @@ const Input = styled.input`
   padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid #ddd;
+  box-sizing: border-box;
   border-radius: 4px;
 `;
 
